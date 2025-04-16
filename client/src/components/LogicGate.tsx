@@ -1,4 +1,6 @@
-import React, { memo } from 'react';
+// LogicGate.tsx
+import { memo } from 'react';
+
 import { Handle, Position } from 'reactflow';
 
 interface LogicGateProps {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useStore } from '../lib/store';
 import { Sun, Moon, ZoomIn, ZoomOut, Maximize2, Plus } from 'lucide-react';
 import { useReactFlow } from 'reactflow';
@@ -23,6 +22,8 @@ export function Toolbar() {
       type: 'logicGate',
       position,
       data: { type, label: type },
+      draggable: true // This enables dragging
+
     });
   };
 

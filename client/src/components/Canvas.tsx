@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import ReactFlow, {
   Background,
   Controls,
   MiniMap,
   Panel,
   useReactFlow,
+  applyNodeChanges,
 } from 'reactflow';
 import { useStore } from '../lib/store';
 import { LogicGate } from './LogicGate';
@@ -33,12 +34,28 @@ export function Canvas() {
   const { fitView } = useReactFlow();
 
   const onNodesChange = useCallback((changes: any) => {
+    const updatedNodes = applyNodeChanges(changes, nodes);
     changes.forEach((change: any) => {
       if (change.type === 'remove') {
         removeNode(change.id);
       }
     });
-  }, [removeNode]);
+    // Update nodes with new positions
+    updatedNodes.forEach(node => {
+      if (node.position) {
+        const existingNode = nodes.find(n => n.id === node.id);
+        if (existingNode && (
+          existingNode.position.x !== node.position.x ||
+          existingNode.position.y !== node.position.y
+        )) {
+          addNode({
+            ...node,
+            position: node.position
+          });
+        }
+      }
+    });
+  }, [nodes, removeNode, addNode]);
 
   const onEdgesChange = useCallback((changes: any) => {
     changes.forEach((change: any) => {

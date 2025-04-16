@@ -43,7 +43,26 @@ export const useStore = create<SimulatorState>((set, get) => ({
 
   addNode: (node) => {
     set((state) => {
+      const existingNodeIndex = state.nodes.findIndex(n => n.id === node.id);
+      const newNodes = [...state.nodes];
       const newHistory = state.history.slice(0, state.historyIndex + 1);
+
+      if (existingNodeIndex >= 0) {
+        // Update existing node
+        newNodes[existingNodeIndex] = node;
+        return {
+          nodes: newNodes,
+          history: [...newHistory, {
+            type: 'move-node',
+            description: `Moved ${node.type} gate`,
+            data: node,
+            timestamp: Date.now()
+          }],
+          historyIndex: state.historyIndex + 1
+        };
+      }
+
+      // Add new node
       return {
         nodes: [...state.nodes, node],
         history: [...newHistory, {

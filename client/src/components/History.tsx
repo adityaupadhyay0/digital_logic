@@ -11,6 +11,18 @@ export function History() {
         <h3 className="font-semibold dark:text-white">History</h3>
         <div className="flex space-x-2">
           <button
+        
+    
+      
+      
+  
+      
+      
+      
+
+      
+
+        
             onClick={undo}
             disabled={historyIndex < 0}
             className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50"
